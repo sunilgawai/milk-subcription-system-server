@@ -1,0 +1,39 @@
+{
+  "name": "milksmith--server",
+  "version": "1.0.0",
+  "description": "This is the server for mil subscription system.",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunilgawai/milk-subcription-system-server.git"
+  },
+  "keywords": [
+    "Subscription",
+    "service",
+    "milk",
+    "ordering"
+  ],
+  "author": "Sunil Gawai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sunilgawai/milk-subcription-system-server/issues"
+  },
+  "homepage": "https://github.com/sunilgawai/milk-subcription-system-server#readme",
+  "devDependencies": {
+    "@types/node": "^22.5.2",
+    "prisma": "^5.19.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "esm": "^3.2.25",
+    "express": "^4.19.2",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

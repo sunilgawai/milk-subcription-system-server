@@ -1,0 +1,77 @@
+please be informed that this system will only connect normal household users and the main milk seller who is myself. I want users to be able to buy a subscription of the milk and the milk will be delivered to their address. They can cancel the subscription any time. Thier subscription will contain the detail of milk and the pricing. They can use the app to update the amount of milk they want tomorrow, or any custom date and these details will be reflected in other final bill. which will include base subscription price and the additional amount of extra milk they ordered in between. Please consider these details and create a prisma schema for me.
+
+
+Sure, I can help you create a Prisma schema based on the details you provided. Below is a schema that includes models for `User`, `Subscription`, `MilkOrder`, and `Invoice`. This schema allows users to subscribe to milk deliveries, update their orders, and manage their subscriptions.
+
+```prisma
+// This is your Prisma schema file,  
+// learn more about it in the docs: https://pris.ly/d/prisma-schema  
+  
+datasource db {  
+  provider = "postgresql"  
+  url      = env("DATABASE_URL")  
+}  
+  
+generator client {  
+  provider = "prisma-client-js"  
+}  
+
+model User {  
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  address   String
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id             String   @id @default(uuid())
+  userId         String
+  startDate      DateTime @default(now())
+  endDate        DateTime?
+  basePrice      Float
+  status         SubscriptionStatus @default(ACTIVE)
+  user           User @relation(fields: [userId], references: [id])
+  milkOrders     MilkOrder[]
+  invoices       Invoice[]
+}
+
+model MilkOrder {
+  id             String   @id @default(uuid())
+  subscriptionId String
+  orderDate      DateTime
+  quantity       Float
+  price          Float
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+}
+
+model Invoice {
+  id             String   @id @default(uuid())
+  subscriptionId String
+  issueDate      DateTime @default(now())
+  totalAmount    Float
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+}
+```
+
+### Explanation:
+- **User**: Represents a household user with fields for `id`, `email`, `name`, `address`, and a relation to `subscriptions`.
+- **Subscription**: Represents a milk subscription with fields for `id`, `userId`, `startDate`, `endDate`, `basePrice`, `status`, and relations to `User`, `MilkOrder`, and `Invoice`.
+- **MilkOrder**: Represents an order for milk with fields for `id`, `subscriptionId`, `orderDate`, `quantity`, `price`, and a relation to `Subscription`.
+- **Invoice**: Represents an invoice with fields for `id`, `subscriptionId`, `issueDate`, `totalAmount`, and a relation to `Subscription`.
+- **SubscriptionStatus**: Enum to represent the status of a subscription, either `ACTIVE` or `CANCELLED`.
+
+This schema should cover the basic requirements of your milk subscription management system. Users can subscribe to milk deliveries, update their orders, and manage their subscriptions. The `MilkOrder` model allows users to specify the quantity of milk they want for a specific date, and the `Invoice` model can be used to generate bills that include the base subscription price and any additional milk ordered.
+
+
+Hii,
+I want to create a milk subscription management system for my milk selling busyness. The main purpose of this system is to simplify the process of milk subscription management. I want my customers to be able to buy milk on daily basis, weekly basis and monthly basis. Weekly and monthly will be the type of subscription. Milk has a fixed price of 40 rs per liter. 
+I want user to select a start date of the subscription and the type of subscription such as weekly or monthly then the amount of milk they want daily. This system should be able to handle invoicing, billing, subscription and customer details. User can update and cancel his subscription at any time and based on that the invoice will be generated for him. 
+please be informed that this system will only connect normal household users and the main milk seller who is myself. I want users to be able to buy a subscription of the milk and the milk will be delivered to their address. They can cancel the subscription any time. Thier subscription will contain the detail of milk and the pricing. They can use the app to update the amount of milk they want tomorrow, or any custom date and these details will be reflected in other final bill. which will include base subscription price and the additional amount of extra milk they ordered in between. Please consider these details and create a prisma schema for me.
+
+for your reference 
